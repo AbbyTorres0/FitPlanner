@@ -1,6 +1,6 @@
 # FitPlanner
 ## Integrantes
-- Chávez Torreblanca Thamara Aline  
+- Chavez Torreblanca Thamara Aline  
 - Díaz Acosta Kahori Fernanda  
 - Quispe Huayhua Miguel Ángel  
 - Torres Barboza Abby Esdras  
