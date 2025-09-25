@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPlanner - Organizador de Rutinas de Ejercicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand glow-text" href="#home">
+                <i class="fas fa-dumbbell me-2"></i>FitPlanner
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#rutinas">Mis Rutinas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#calendario">Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#historial">Historial</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="container-fluid p-0">
+        <!-- Sección Home -->
+        <section id="home" class="page-section hero-section">
+            <div class="container py-5">
+                <div class="row align-items-center min-vh-80">
+                    <div class="col-lg-6">
+                        <h1 class="display-4 fw-bold mb-4 animate-text">Organiza tu <span class="text-primary">entrenamiento</span> como un profesional</h1>
+                        <p class="lead mb-4">Crea, planifica y sigue tus rutinas de ejercicio con recordatorios personalizados. Alcanza tus metas fitness de manera organizada y motivadora.</p>
+                        <button class="btn btn-primary btn-lg rounded-pill px-4 py-2 pulse" onclick="showSection('rutinas')">
+                            Comenzar ahora <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="hero-image">
+                            <div class="floating-card card-1">
+                                <i class="fas fa-running"></i>
+                                <p>Cardio</p>
+                            </div>
+                            <div class="floating-card card-2">
+                                <i class="fas fa-dumbbell"></i>
+                                <p>Fuerza</p>
+                            </div>
+                            <div class="floating-card card-3">
+                                <i class="fas fa-heart"></i>
+                                <p>Salud</p>
+                            </div>
+                            <div class="main-circle">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Rutinas -->
+        <section id="rutinas" class="page-section py-5 d-none">
+            <div class="container">
+                <h2 class="text-center mb-4 section-title">Mis Rutinas de Ejercicio</h2>
+                
+                <!-- Filtros y búsqueda -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" id="searchInput" class="form-control" placeholder="Buscar rutina...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex flex-wrap gap-2">
+                            <select id="filterType" class="form-select">
+                                <option value="">Todos los tipos</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="fuerza">Fuerza</option>
+                                <option value="flexibilidad">Flexibilidad</option>
+                                <option value="equilibrio">Equilibrio</option>
+                            </select>
+                            <select id="filterLevel" class="form-select">
+                                <option value="">Todos los niveles</option>
+                                <option value="principiante">Principiante</option>
+                                <option value="intermedio">Intermedio</option>
+                                <option value="avanzado">Avanzado</option>
+                            </select>
+                            <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botón para agregar nueva rutina -->
+                <div class="text-center mb-4">
+                    <button class="btn btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#routineModal">
+                        <i class="fas fa-plus me-2"></i> Nueva Rutina
+                    </button>
+                </div>
+                
+                <!-- Tabla de rutinas -->
+                <div class="table-responsive">
+                    <table class="table table-hover" id="routinesTable">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Duración</th>
+                                <th>Nivel</th>
+                                <th>Días</th>
+                                <th>Recordatorio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las rutinas se cargarán dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Mensaje cuando no hay rutinas -->
+                <div id="noRoutinesMessage" class="text-center py-5 d-none">
+                    <i class="fas fa-clipboard-list fa-3x mb-3 text-muted"></i>
+                    <h4 class="text-muted">No hay rutinas registradas</h4>
+                    <p>Comienza creando tu primera rutina de ejercicios.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Calendario -->
+        <section id="calendario" class="page-section py-5 d-none">
+            <div class="container">
+                <h2 class="text-center mb-4 section-title">Calendario de Entrenamiento</h2>
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div id="calendarNav" class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <button class="btn btn-sm btn-outline-primary" id="prevMonth">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h5 id="currentMonth" class="mb-0"></h5>
+                                <button class="btn btn-sm btn-outline-primary" id="nextMonth">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="list-group" id="routineListCalendar">
+                                <!-- Lista de rutinas para arrastrar al calendario -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-9">
+                        <div id="calendar" class="calendar-grid">
+                            <!-- El calendario se generará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Historial -->
+        <section id="historial" class="page-section py-5 d-none">
+            <div class="container">
+                <h2 class="text-center mb-4 section-title">Historial de Ejercicios</h2>
+                
+                <div class="row mb-4">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card bg-gradient-primary text-white">
+                            <div class="card-body text-center p-4">
+                                <h3 id="completedCount">0</h3>
+                                <p class="mb-0">Rutinas completadas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Estadísticas por tipo</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="typeChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Rutinas recientes</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush" id="recentRoutines">
+                                    <!-- Rutinas recientes completadas -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Todas las rutinas completadas</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" id="completedTable">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Rutina</th>
+                                        <th>Tipo</th>
+                                        <th>Duración</th>
+                                        <th>Nivel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Rutinas completadas -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para agregar/editar rutina -->
+    <div class="modal fade" id="routineModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="modalTitle">Agregar Nueva Rutina</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="routineForm" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" id="routineId">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Nombre de la rutina</label>
+                                <input type="text" class="form-control" id="name" required>
+                                <div class="invalid-feedback">Por favor ingresa un nombre para la rutina.</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="type" class="form-label">Tipo de ejercicio</label>
+                                <select class="form-select" id="type" required>
+                                    <option value="">Seleccionar tipo</option>
+                                    <option value="cardio">Cardio</option>
+                                    <option value="fuerza">Fuerza</option>
+                                    <option value="flexibilidad">Flexibilidad</option>
+                                    <option value="equilibrio">Equilibrio</option>
+                                </select>
+                                <div class="invalid-feedback">Por favor selecciona un tipo de ejercicio.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="duration" class="form-label">Duración (minutos)</label>
+                                <input type="number" class="form-control" id="duration" min="1" required>
+                                <div class="invalid-feedback">Por favor ingresa una duración válida.</div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="level" class="form-label">Nivel de dificultad</label>
+                                <select class="form-select" id="level" required>
+                                    <option value="">Seleccionar nivel</option>
+                                    <option value="principiante">Principiante</option>
+                                    <option value="intermedio">Intermedio</option>
+                                    <option value="avanzado">Avanzado</option>
+                                </select>
+                                <div class="invalid-feedback">Por favor selecciona un nivel de dificultad.</div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="days" class="form-label">Días por semana</label>
+                                <input type="number" class="form-control" id="days" min="1" max="7" required>
+                                <div class="invalid-feedback">Por favor ingresa un número válido de días (1-7).</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descripción (opcional)</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="hasReminder">
+                                    <label class="form-check-label" for="hasReminder">Activar recordatorio</label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3" id="reminderTimeContainer" style="display: none;">
+                                <label for="reminderTime" class="form-label">Hora del recordatorio</label>
+                                <input type="time" class="form-control" id="reminderTime">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar Rutina</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner de carga -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
