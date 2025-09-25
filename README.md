@@ -2,7 +2,8 @@
 ## Integrantes
 - Chavez Torreblanca Thamara Aline  
 - Díaz Acosta Kahori Fernanda  
-- Quispe Huayhua Miguel Ángel  
+- Quispe Huayhua Miguel Ángel
+- Torres Barboza Abby Esdras
 
 
 ## Descripción
